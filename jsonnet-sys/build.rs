@@ -47,13 +47,20 @@ fn main() -> Result<(), Box<dyn Error>> {
         .include(out_dir.join("include"))
         .include(dir.join("include"))
         .include(dir.join("third_party/md5"))
-        .include(dir.join("third_party/json"));
+        .include(dir.join("third_party/json"))
+        .include(dir.join("third_party/rapidyaml/rapidyaml/src"))
+        .include(dir.join("third_party/rapidyaml/rapidyaml/ext/c4core/src"));
 
     for f in &jsonnet_core {
         c.file(dir.join("core").join(f));
     }
 
     c.file(dir.join("third_party/md5/md5.cpp"));
+
+    let rapidyaml_includes = ["ryml_std.hpp", "ryml.hpp"];
+    for f in rapidyaml_includes {
+        c.file(dir.join("third_party/rapidyaml/rapidyaml/src").join(f));
+    }
 
     c.compile("libjsonnet.a");
 
