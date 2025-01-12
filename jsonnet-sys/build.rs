@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    if std::env::var("DOCS_RS").is_ok() {
+    if std::env::var("DOCS_RS").is_err() {
         if !Path::new("jsonnet/.git").exists() {
             let _ = Command::new("git")
                 .args(&["submodule", "update", "--init"])
